@@ -1,0 +1,46 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+sourceCompatibility = 1.8
+version = '1.0-SNAPSHOT'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+	compile("org.springframework.data:spring-data-mongodb:1.2.0.RELEASE")
+	compile("org.mongodb:mongo-java-driver:2.11.0")
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
+publishing {
+publications {
+	api(MavenPublication) {
+            groupId 'org.slambook.mongoservice'
+            artifactId 'slambook-mongoservice'
+            version '1.0-SNAPSHOT'
+
+            artifact jar
+        }
+}
+}
+
